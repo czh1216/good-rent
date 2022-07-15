@@ -1,6 +1,8 @@
 <template>
   <div>
-    <router-view></router-view>
+      <div>
+          战争中
+      </div>
   </div>
 </template>
 
