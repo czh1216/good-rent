@@ -28,7 +28,7 @@
   </div>
 </template>
 <script>
-// 账号:hzhmqd密码:123456
+// 账号:hzhmqd 密码:123456
 import { login } from '@/api/uaer'
 export default {
   data () {
@@ -42,12 +42,22 @@ export default {
       try {
         const res = await login(this.username, this.password)
         console.log('登录成功', res)
-      } catch (e) {
-        if (e.response.status === 400) {
-          console.log('登录失败', e)
+        this.$store.commit('setUser', res.data.body)
+        this.$toast.success('登录成功')
+        if (res.data.status === 200) {
+          this.$router.push('/mine')
+        } else if (res.data.status === 400) {
+          this.$toast.fail('账号或密码错误')
         } else {
-          console.log('登录事变,请稍后重试', e)
+          this.$toast.success('登录异常,请稍后再试')
         }
+      } catch (e) {
+        const status = e.response.status
+        let message = '登录错误，请刷新！'
+        if (status === 400) {
+          message = e.response.data.message
+        }
+        this.$toast.fail(message)
       }
     },
     background () {
