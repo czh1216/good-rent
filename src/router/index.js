@@ -6,7 +6,7 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    redirect: '/login'
+    redirect: '/homepage'
   },
   {
     path: '/login',
@@ -30,13 +30,19 @@ const routes = [
       },
       {
         path: '/information',
-        name: 'information',
         component: () => import('@/views/Information')
       },
-      {
+      { //登录页面
         path: '/mine',
-        name: 'mine',
         component: () => import('@/views/Mine')
+      },
+      { //收藏
+        path: '/collect',
+        component: () => import('@/views/collect')
+      },
+      {
+        path: '/rentout',
+        component: () => import('@/views/RentOut')
       }
     ]
   },

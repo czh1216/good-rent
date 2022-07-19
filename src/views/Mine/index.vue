@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- 登录页面 -->
     <div class="tpp" v-if="users">
       <img src="http://liufusong.top:8080/img/avatar.png" alt="" />
       <div class="already">
@@ -19,6 +20,7 @@
       </div>
     </div>
 
+    <!-- 未登录 -->
     <div class="tp" v-else>
       <img src="http://liufusong.top:8080/img/profile/bg.png" alt="" />
       <div class="ykdl">
@@ -27,14 +29,22 @@
         </div>
         <div class="register">
           <p>qwerty</p>
-          <van-button class="button" type="info" to="/login">去登录</van-button>
+          <van-button class="button" type="info" @click="goLogin">去登录</van-button>
         </div>
       </div>
     </div>
     <!--  -->
-    <van-grid class="qqq" clickable :column-num="3" :border="false">
-      <van-grid-item icon="star-o" text="我的收藏" />
-      <van-grid-item icon="wap-home-o" text="我的出租" />
+    <van-grid class="qqq" :clickable='true' :column-num="3" :border="false">
+      <van-grid-item
+      icon="star-o"
+      text="我的收藏"
+      @click="users ? $router.push('/collect') : $router.push('/login')" />
+
+      <van-grid-item
+      icon="wap-home-o"
+      text="我的出租"
+      @click="users ? $router.push('/rentout') : $router.push('/login')" />
+
       <van-grid-item icon="clock-o" text="看房记录" />
       <van-grid-item icon="idcard" text="成为房主" />
       <van-grid-item icon="manager-o" text="个人资料" />
@@ -46,6 +56,8 @@
   </div>
 </template>
 <script>
+import { favorateList, userInfo } from '@/api/uaer'
+// import { mapState } from 'vuex'
 export default {
   computed: {
     users () {
@@ -53,18 +65,49 @@ export default {
     }
   },
   methods: {
+    //跳转登录页面
+    goLogin () {
+      this.$toast.loading('加载中')
+      this.$router.push({
+        path: '/login'
+      })
+      this.$toast.success('加载成功')
+    },
+    //退出登录
     logout () {
       this.$dialog
         .confirm({
           title: '提示',
           message: '是否确认退出该账号'
         })
-        .then(() => {
-          this.$store.commit('setUser', {})
+        .then(async () => {
+          try {
+            const { data } = await favorateList()
+            this.$toast.loading('退出中')
+            this.$store.commit('setUser', {})
+            this.$toast.success(data.description)
+          } catch (error) {
+            this.$toast.fail('退出失败')
+          }
         })
         .catch(() => {
           // on cancel
         })
+    }
+  },
+  async created () {
+    try {
+      if (this.token) {
+        const { data } = await userInfo()
+        if (!data.body) {
+          throw 'Error'
+        }
+        this.userInfo = data.body
+      }
+      console.log(await userInfo())
+    } catch (error) {
+      this.$toast.fail('用户认证失败或已过期')
+      this.$store.commit('setUser', {})
     }
   }
 }
