@@ -30,11 +30,11 @@ export default {
   background-color: #21b97a;
   /deep/.van-nav-bar__title {
     color: #fff;
-    font-size: 40px;
+    font-size: 18px;
   }
   /deep/.van-icon {
     color: #fff;
-    font-size: 40px;
+    font-size: 16px;
   }
 }
 </style>

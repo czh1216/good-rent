@@ -3,10 +3,7 @@ module.exports = {
   env: {
     node: true
   },
-  extends: [
-    'plugin:vue/essential',
-    '@vue/standard'
-  ],
+  extends: ['plugin:vue/essential', '@vue/standard'],
   parserOptions: {
     parser: '@babel/eslint-parser',
     requireConfigFile: false
@@ -18,6 +15,9 @@ module.exports = {
     'spaced-comment': 'off',
     'vue/multi-word-component-names': 'off',
     'no-throw-literal': 'off',
-    'vue/require-prop-type-constructor': 'off'
+    'vue/require-prop-type-constructor': 'off',
+    'no-dupe-keys': 'off',
+    'no-unused-expressions': 'off',
+    'no-sequences': 'off'
   }
 }

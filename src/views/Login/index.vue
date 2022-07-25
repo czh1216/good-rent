@@ -1,101 +1,131 @@
 <template>
   <div>
-      <van-nav-bar class="info" title="账号登录" left-arrow @click-left="background">
-      <template #left><van-icon name="arrow-left" color="#fff" /></template>
-      </van-nav-bar>
-
-      <van-form @submit="login" class="fine">
-        <van-field
-          v-model="username"
-          name="username"
-          placeholder="请输入账号"
-          :rules="[{ required: true, message: '请输入账号' }]"
-        />
-        <van-field
-          v-model="password"
-          name="password"
-          placeholder="请输入密码"
-          :rules="[{ required: true, message: '请输入密码' }]"
-        />
-        <div style="margin: 16px;" class="dle">
-          <van-button block type="info" native-type="submit">登录</van-button>
-        </div>
-      </van-form>
-
-      <van-form class="ass">
-          <a href="#">还没有账号，去注册~</a>
-      </van-form>
+    <!-- 导航头部 -->
+    <van-nav-bar
+      title="账号登录"
+      left-arrow
+      @click-left="onClickLeft"
+      class="navbar"
+    />
+    <!-- 导航头部 -->
+    <!-- from表单区域 -->
+    <van-form @submit="login" class="fromVant">
+      <van-field
+        v-model.trim="username"
+        name="username"
+        placeholder="请输入账号"
+        size
+      />
+      <van-field
+        v-model.trim="password"
+        type="password"
+        name="password"
+        placeholder="请输入密码"
+      />
+      <div style="margin: 16px">
+        <van-button block type="info" native-type="submit" class="loginbtn"
+          >登 录
+        </van-button>
+      </div>
+    </van-form>
+    <!-- from表单区域 -->
+    <div class="register">
+      <span @click="registerFn">还没有账号, 去注册~</span>
+    </div>
   </div>
 </template>
+
 <script>
-// 账号:hzhmqd 密码:123456
-import { login } from '@/api/uaer'
+// 账号:hzhmqd密码:123456
+import { login } from '@/apis/user'
 export default {
+  name: 'Login',
   data () {
     return {
       username: '',
-      password: ''
+      password: '',
+      usernameReg: /^[a-zA-Z\d]{4,15}$/, // 用户名正则
+      passwordReg: /^[a-zA-Z\d]{4,15}$/ // 用户密码正则
     }
   },
   methods: {
+    // 退出
+    onClickLeft () {
+      this.$router.back()
+    },
+    // 登录Submit事件
     async login () {
+      // 判断格式有没有问题
+      if (
+        !this.usernameReg.test(this.username) ||
+        !this.passwordReg.test(this.password)
+      ) {
+        return this.$toast.fail('账号或密码格式不正确')
+      }
+
       try {
-        const res = await login(this.username, this.password)
-        console.log('登录成功', res)
-        this.$store.commit('setUser', res.data.body)
+        // 登陆成功
+        this.$toast.loading({
+          message: '登陆中',
+          duration: 0
+        })
+
+        const { data } = await login(this.username, this.password)
+        this.$store.commit('addToken', data.body.token)
+        this.$toast.success(data.description)
+        // 登陆成功 跳转首页
+        this.$router.push({
+          path: '/'
+        })
         this.$toast.success('登录成功')
-        if (res.data.status === 200) {
-          this.$router.push('/mine')
-        } else if (res.data.status === 400) {
-          this.$toast.fail('账号或密码错误')
-        } else {
-          this.$toast.success('登录异常,请稍后再试')
-        }
       } catch (e) {
-        const status = e.response.status
-        let message = '登录错误，请刷新！'
-        if (status === 400) {
-          message = e.response.data.message
-        }
-        this.$toast.fail(message)
+        // 登陆失败
+        this.$toast.fail('账号或密码错误')
       }
     },
-    background () {
-      this.$router.back()
-    }
+    // 注册跳转
+    registerFn () {}
   }
 }
 </script>
 
-<style scoped lang='less'>
-.info{
-    background-color:#21B97A;
-    :deep(.van-nav-bar__title){
-        color:#fff;
-        font-size: 35px;
-    }
+<style lang="less" scoped>
+.navbar {
+  background-color: #1CB676;
+  /deep/.van-icon {
+    color: #fff;
+    font-size: 17px;
+  }
+  /deep/.van-nav-bar__title {
+    color: #fff;
+    // font-weight: 550;
+    font-size: 18px;
+  }
+  /deep/.van-cell__value {
+    font-size: 17.5px;
+  }
 }
-.fine{
-    :deep(.van-cell){
-        height: 140px;
-        line-height: 140px;
-        font-size: 35px;
-        font-weight: 320;
-        color: #C0C0C4;
+.fromVant {
+  margin-top: 20px;
+  .loginbtn {
+    background-color: #1CB676;
+    border: none;
+    height: 50px;
+    margin-top: 30px;
+    .van-button__text {
+      font-size: 18px;
     }
+  }
+  /deep/.van-field__control {
+    margin-top: 20px;
+    font-size: 17px;
+    background-color: #fff;
+  }
 }
-.dle{
-    :deep(.van-button){
-        background-color: #1CB676;
-        font-size: 35px;
-    }
-}
-.ass{
-    margin-top: 60px;
-    font-size: 29px;
-    text-align: center;
-    a {
-        color: rgb(131, 127, 127)
-    }
+.register {
+  font-size: 17px;
+  text-align: center;
+  color: #666666;
+  margin-top: 30px;
 }
 </style>
