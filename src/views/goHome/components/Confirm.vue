@@ -10,7 +10,14 @@
           :columns="columns"
           @confirm="areaFn"
           @cancel="areaOut"
-        />
+        >
+          <template #confirm>
+            <van-button type="primary" class="confirm-btn">确定</van-button>
+          </template>
+          <template #cancel>
+            <span>取消</span>
+          </template>
+        </van-picker>
       </van-dropdown-item>
       <!-- 区域 -->
       <!-- 方式和租金 -->
@@ -28,7 +35,9 @@
       >
         <span slot="title">租金</span>
       </van-dropdown-item>
-      <!-- 方式和租金 -->
+      <!-- <van-dropdown-menu>
+      </van-dropdown-menu> -->
+
       <!-- 筛选 -->
       <van-dropdown-item
         ref="dropdown"
@@ -38,6 +47,7 @@
       >
         <span slot="title">筛选</span>
       </van-dropdown-item>
+
       <van-popup
         class="popup"
         v-model="show"
@@ -46,7 +56,7 @@
         @close="closeFn"
         :lazy-render="true"
       >
-        <!-- 赛选内容区域 -->
+        <!-- 内容区域 -->
         <Btn title="户型" :data="roomType" />
         <Btn title="朝向" :data="oriented" />
         <Btn title="楼层" :data="floor" />
@@ -73,7 +83,6 @@
 <script>
 import { getCondition, getHousesAll } from '@/apis/house'
 import { mapMutations, mapState } from 'vuex'
-
 import Btn from './Btn'
 export default {
   name: 'Confirm',
@@ -103,8 +112,7 @@ export default {
         message: '加载中',
         duration: 0
       })
-      // 开始加载
-      // 发起请求,获取所有查询要求条件
+      // 发起请求,获取条件
       const { data } = await getCondition(this.currentCityL.value)
       this.roomType = data.body.roomType
       this.oriented = data.body.oriented
@@ -118,7 +126,7 @@ export default {
         this.option2[index].value = item.value
       })
       this.value2 = this.option2[0].value
-      // 方式的数据整理
+
       //租金的数据整理
       data.body.price.forEach((item, index) => {
         this.option3[index] = {}
@@ -126,14 +134,13 @@ export default {
         this.option3[index].value = item.value
       })
       this.value3 = this.option3[0].value
-      //租金的数据整理
+
       //区域数据调整
       this.forData(data.body.area, this.newData)
       this.columns.push(this.newData)
       this.newData = {}
       this.forData(data.body.subway, this.newData)
       this.columns.push(this.newData)
-      //区域数据调整
     } catch (error) {
       console.log(error)
     }
@@ -328,4 +335,5 @@ export default {
 .fade-leave-active {
   transform: translateX(100%);
 }
+
 </style>

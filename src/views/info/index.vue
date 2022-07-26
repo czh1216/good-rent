@@ -1,5 +1,5 @@
 <template>
-  <div><img src="@/assets/img/8137cc6a5e03dd4713d7aeca91e2952e.jpg" alt="" /></div>
+  <div><img src="@/assets/img/屏幕截图 2022-07-22 192755.png" alt="" /></div>
 </template>
 
 <script>

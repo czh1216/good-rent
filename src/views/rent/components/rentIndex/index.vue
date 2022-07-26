@@ -11,6 +11,7 @@
     </div>
     <!-- 收藏列表部分 -->
     <div v-else class="none">
+      <van-icon name="newspaper-o" size="150px" />
       <div class="issue">
       您还没有房源,
       <a href="/#/rent/add">请去发布房源</a>吧~
@@ -58,7 +59,15 @@ export default {
 
 <style lang="less" scoped>
 .issue{
+  margin: 10px 20px 0;
   text-align: center;
   font-size: 18px;
+  a {
+    color: #21B97A;
+  }
+}
+.van-icon{
+  color: #21B97A;
+  margin: 20px 120px 0;
 }
 </style>

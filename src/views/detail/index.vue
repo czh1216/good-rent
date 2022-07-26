@@ -254,6 +254,8 @@ export default {
   methods: {
     //获取数据
     async getMap (id) {
+      // const data = await getMap(id)
+      // console.log(data)
       try {
         const data = await getMap(id)
         this.data = data.data.body //获取返回来的数据

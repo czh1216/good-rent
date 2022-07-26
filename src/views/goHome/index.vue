@@ -33,7 +33,7 @@
       </van-list>
       <!-- 触底刷新 -->
     </div>
-    <div v-else class="none">暂无房源数据~</div>
+    <div v-else class="none">正在加载，请稍等~</div>
   </div>
 </template>
 
@@ -129,11 +129,12 @@ export default {
     color: #fff;
     text-align: center;
     line-height: 34px;
-    margin-left: 5px;
+    margin-left: 15px;
   }
 }
 .none {
   text-align: center;
   margin-top: 20px;
+  font-size: 15px;
 }
 </style>

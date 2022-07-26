@@ -194,7 +194,7 @@ export default {
     color: #fff;
     text-align: center;
     line-height: 34px;
-    margin-left: 5px;
+    margin-left: 15px;
   }
 }
 .home-nav {

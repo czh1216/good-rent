@@ -1,36 +1,35 @@
 <template>
-  <div class="cityIndex">
+  <div>
     <div class="navbar">
       <navBar :title="'城市列表'" />
     </div>
-    <van-index-bar
-      :index-list="indexList"
-      highlight-color="#fff"
-      :sticky="false"
-    >
-      <van-index-anchor>当前城市</van-index-anchor>
-      <van-cell :title="$store.state.currentCityL.label" :clickable="true" />
+    <div class="nav-content">
+      <van-index-bar :index-list="indexList">
+        <van-index-anchor index="#">当前城市</van-index-anchor>
+        <van-cell :title="$store.state.currentCityL.label" :clickable="true" />
 
-      <van-index-anchor index="热">热门城市</van-index-anchor>
-      <van-cell
-        :title="item.label"
-        v-for="item in hotCity"
-        :key="item.label"
-        :clickable="true"
-        @click="setCurrentCityL(item)"
-      />
-      <!-- 字母排序城市 -->
-      <div v-for="(item, index) in cityList" :key="index">
-        <van-index-anchor :index="item[0]" />
+        <van-index-anchor index="热">热门城市</van-index-anchor>
         <van-cell
-          :title="obj.label"
-          v-for="obj in item[1]"
-          :key="obj.value"
-          :clickable="true"
-          @click="setCurrentCityL(obj)"
+        :clickable="true"
+        v-for="hot in hotCitys"
+        :key="hot.label"
+        :title="hot.label"
+        @click="setCurrentCityL(hot)"
         />
-      </div>
-    </van-index-bar>
+
+        <div v-for="letter in letters" :key="letter">
+          <van-index-anchor :index="letter">{{ letter }}</van-index-anchor>
+          <van-cell
+            v-for="(city, index) in filterCitys(letter)"
+            :title="city.label"
+            :key="index"
+            :clickable="true"
+            @click="setCurrentCityL(city)"
+          />
+        </div>
+      </van-index-bar>
+      <div style="width: 100%; height: 180px"></div>
+    </div>
   </div>
 </template>
 
@@ -42,53 +41,73 @@ export default {
   name: 'City',
   data () {
     return {
-      cityList: [],
-      hotCity: [],
-      indexList: ['热']
+      citys: [],
+      hotCitys: [],
+      indexList: [
+        '#',
+        '热',
+        'A',
+        'B',
+        'C',
+        'D',
+        'F',
+        'G',
+        'H',
+        'J',
+        'K',
+        'L',
+        'M',
+        'N',
+        'Q',
+        'S',
+        'T',
+        'W',
+        'X',
+        'Y',
+        'Z'
+      ],
+      letters: [
+        'A',
+        'B',
+        'C',
+        'D',
+        'F',
+        'G',
+        'H',
+        'J',
+        'K',
+        'L',
+        'M',
+        'N',
+        'Q',
+        'S',
+        'T',
+        'W',
+        'X',
+        'Y',
+        'Z'
+      ]
     }
   },
   components: {
     navBar
   },
-  async created () {
-    // 获取热门城市
-    try {
-      // 进入开启加载提示
-      this.$toast.loading({
-        message: '加载中',
-        duration: 0
-      })
-      const res = await hotCity()
-      //城市列表分类
-      const { data } = await getCity()
-      const obj = {}
-      // 获取所有数据,并且通过首字母进行分类
-      data.body.forEach((item) => {
-        const letter = item.short.charAt(0).toUpperCase()
-        if (!obj[letter]) {
-          obj[letter] = []
-          obj[letter][0] = item.short.charAt(0).toUpperCase()
-          obj[letter][1] = []
-        }
-        obj[letter][1].push(item)
-      })
-      //将key值进行排序并且把数据全部转化为数组方便渲染页面
-      const newkey = Object.keys(obj).sort()
-      newkey.forEach((item) => {
-        this.cityList.push(obj[item])
-        this.indexList.push(item)
-        this.hotCity = res.data.body
-      })
-      // 加载完毕 关闭加载提示
-      this.$toast.loading({
-        message: '加载中',
-        duration: 1
-      })
-    } catch (error) {
-      this.$toast.fail('数据加载失败')
-    }
+  created () {
+    this.getCity()
+    this.hotCity()
   },
   methods: {
+    async getCity () {
+      try {
+        this.citys = (await getCity()).data.body
+      } catch (err) {
+        // console.log(err)
+      }
+      console.log(this.citys)
+    },
+    async hotCity () {
+      this.hotCitys = (await hotCity()).data.body
+    },
     //修改当前城市
     setCurrentCityL (item) {
       this.addCurrentCityL(item)
@@ -96,14 +115,20 @@ export default {
       this.$router.back()
     },
     ...mapMutations(['addCurrentCityL'])
+  },
+  computed: {
+    filterCitys () {
+      return (letter) => {
+        return this.citys.filter(
+          (item) => item.short.substr(0, 1).toUpperCase() === letter
+        )
+      }
+    }
   }
 }
 </script>
 
 <style lang="less" scoped>
-.cityIndex {
-  padding-top: 45px;
-}
 .navbar {
   position: fixed;
   top: 0;
@@ -111,17 +136,55 @@ export default {
   width: 100%;
   height: 45px;
 }
-/deep/.van-index-bar__index--active {
-  background-color: skyblue;
-  border-radius: 50%;
-}
-/deep/.van-index-bar__index {
-  font-size: 14px !important;
-  padding: 6px !important;
-  margin-right: 5px;
-}
-/deep/.van-index-anchor {
-  color: #b5b5b5;
-  font-size: 15px;
+.nav-content {
+  padding-top: 55px;
+  width: 100%;
+  height: 95vh;
+  overflow-y: scroll;
+
+  /deep/.van-nav-bar {
+    background-color: #21b97a;
+
+    .van-nav-bar__title {
+      color: #fff;
+      font-size: 18px;
+    }
+
+    .van-icon {
+      color: #fff;
+    }
+  }
+
+  .van-index-bar {
+    /deep/.van-index-bar__sidebar {
+      height: calc(100% - 110px);
+      justify-content: space-between;
+      .van-index-bar__index {
+        font-size: 14px;
+      }
+    }
+
+    /deep/.van-index-anchor {
+      color: #a2a2a2;
+    }
+  }
+  /deep/.van-index-bar__index {
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    padding: 0;
+    margin-right: 10px;
+    text-align: center;
+    line-height: 20px;
+  }
+  /deep/.van-index-bar__index--active {
+    color: #fff;
+    font-weight: 700;
+    background-color: #21b97a;
+    border-radius: 10px;
+  }
+  /deep/.van-index-anchor--sticky {
+    position: static;
+  }
 }
 </style>
