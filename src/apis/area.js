@@ -13,7 +13,7 @@ export const getCommunity = (name) => {
   })
 }
 
-//获取城市列表数据 /area/city
+//获取城市列表数据
 export const getCity = () => {
   return request({
     method: 'GET',
@@ -32,7 +32,7 @@ export const hotCity = () => {
   })
 }
 
-//获取地图坐标/area/map coordinate
+//获取地图坐标
 export const getMapCoordinate = (id) => {
   return request({
     method: 'GET',
@@ -42,5 +42,3 @@ export const getMapCoordinate = (id) => {
     }
   })
 }
-
-//获取

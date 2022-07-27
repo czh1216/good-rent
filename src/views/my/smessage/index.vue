@@ -1,6 +1,6 @@
 <template>
   <div>
-    <navBar :title="'惊喜'"></navBar>
+    <navBar :title="'个人资料'"></navBar>
     <img src="@/assets/img/8137cc6a5e03dd4713d7aeca91e2952e.jpg" alt="" />
   </div>
 </template>

@@ -1,12 +1,7 @@
 import request from '@/utils/request'
 import store from '@/store/index'
 
-/**
- * 登录
- * @param {String} username 用户账号
- * @param {String} password 用户密码
- * @returns  用户token
- */
+//登录
 export const login = (username, password) => {
   return request({
     method: 'POST',
@@ -18,7 +13,7 @@ export const login = (username, password) => {
   })
 }
 
-// 登出  /user/logout
+// 登出
 export const logout = () => {
   return request({
     method: 'POST',
@@ -26,10 +21,7 @@ export const logout = () => {
   })
 }
 
-/**
- *
- * @returns 获取用户资料
- */
+//获取用户资料
 export const userInfo = () => {
   return request({
     method: 'GET',
@@ -45,7 +37,7 @@ export const favorateList = () => {
   })
 }
 
-// 获取房屋出租列表 /user/houses
+// 获取房屋出租列表
 export const housesList = () => {
   return request({
     method: 'GET',
@@ -53,7 +45,7 @@ export const housesList = () => {
   })
 }
 
-//发布房源 /user/houses
+//发布房源
 export const addHouses = (data) => {
   data.community = store.state.community.community
   console.log(data)
@@ -64,7 +56,7 @@ export const addHouses = (data) => {
   })
 }
 
-//获取用户是否收藏 /user/favorites/{id}
+//获取用户是否收藏
 export const getFavorites = (id) => {
   return request({
     method: 'GET',

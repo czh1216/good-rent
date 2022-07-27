@@ -7,12 +7,10 @@
       :zoom="zoom"
       @ready="handler"
     >
-      <!-- 比例尺控件 -->
       <bm-scale anchor="BMAP_ANCHOR_BOTTOM_LEFT"></bm-scale>
-      <!-- 比例尺控件 -->
       <!-- 缩放控件 -->
       <bm-navigation anchor="BMAP_ANCHOR_BOTTOM_RIGHT"></bm-navigation>
-      <!-- 缩放控件 -->
+
       <!-- 自定义遮盖物 -->
       <bm-overlay :center="center">
         <!-- 开始渲染成圆形 -->
@@ -61,7 +59,6 @@
       <div class="favorate-list">
         <!-- 列表渲染 -->
         <ListCell :List="endLsit" />
-        <!-- 列表渲染 -->
       </div>
     </van-popup>
   </div>

@@ -2,7 +2,7 @@
   <div class="goHome">
     <!-- 导航栏 -->
     <navBar />
-    <!-- 导航栏 -->
+
     <!-- 搜索框 -->
     <div class="home-search">
       <van-search
@@ -17,7 +17,7 @@
       </van-search>
       <van-icon name="location-o" class="search-icon" @click="goMap" />
     </div>
-    <!-- 搜索框 -->
+
     <!-- 下拉选择 -->
     <Confirm />
     <!-- 列表渲染 -->
@@ -31,7 +31,6 @@
       >
         <ListCell :List="searchList"></ListCell>
       </van-list>
-      <!-- 触底刷新 -->
     </div>
     <div v-else class="none">正在加载，请稍等~</div>
   </div>

@@ -2,14 +2,13 @@
   <div>
     <!-- 头部 -->
     <NavBar :title="'收藏列表'"></NavBar>
-    <!-- 头部 -->
+
     <!-- 收藏列表部分 -->
     <div class="favorate-list">
+
       <!-- 列表渲染 -->
       <ListCell :List="favorateLists" />
-      <!-- 列表渲染 -->
     </div>
-    <!-- 收藏列表部分 -->
   </div>
 </template>
 

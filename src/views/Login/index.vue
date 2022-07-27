@@ -7,7 +7,7 @@
       @click-left="onClickLeft"
       class="navbar"
     />
-    <!-- 导航头部 -->
+
     <!-- from表单区域 -->
     <van-form @submit="login" class="fromVant">
       <van-field
@@ -28,7 +28,7 @@
         </van-button>
       </div>
     </van-form>
-    <!-- from表单区域 -->
+
     <div class="register">
       <span @click="registerFn">还没有账号, 去注册~</span>
     </div>

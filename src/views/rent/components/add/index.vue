@@ -11,13 +11,13 @@
           :value="community.communityName || '请输入小区名称'"
           to="/rent/search"
         />
-        <!-- 小区名称 -->
+
         <!-- 租金 -->
         <van-field v-model.number="data.price" placeholder="请输入租金/月">
           <span slot="label">租&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;金</span>
           <span slot="extra">￥/月</span>
         </van-field>
-        <!-- 租金 -->
+
         <!-- 建筑面积 -->
         <van-field
           v-model.number="data.size"
@@ -26,7 +26,7 @@
         >
           <span slot="extra">㎡</span>
         </van-field>
-        <!-- 建筑面积 -->
+
         <!-- 户型 -->
         <van-cell is-link :value="actionsText || '请选择'" @click="show = true">
           <span slot="title">户&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;型</span>
@@ -38,7 +38,7 @@
           @select="onSelect"
           cancel-text="取消"
         />
-        <!-- 户型 -->
+
         <!-- 所在楼层 -->
         <van-cell
           title="所在楼层"
@@ -55,7 +55,7 @@
           :lazy-render="true"
         />
       </van-cell-group>
-      <!-- 所在楼层 -->
+
       <!-- 朝向 -->
       <van-cell
         is-link
@@ -72,7 +72,7 @@
         @select="onSelectOriented"
         cancel-text="取消"
       />
-      <!-- 朝向 -->
+
       <div class="information">房屋标题</div>
       <!-- 用户名 -->
       <van-field
@@ -80,9 +80,9 @@
         placeholder="请输入标题(例如:整租小区名2室5000元)"
         :border="false"
       />
-      <!-- 用户名 -->
+
       <div class="information">房屋图像</div>
-      <!-- fileList用于绑定图片个数,固定写法 -->
+
       <!-- 图片上传 -->
       <van-uploader
         v-model="imgs"
@@ -90,7 +90,7 @@
         :after-read="afterRead"
         @delete="delImg"
       />
-      <!-- 图片上传 -->
+
       <div class="information">房屋配置</div>
       <!-- 房屋配置列表 -->
       <van-grid :column-num="5" :border="false">
@@ -105,7 +105,7 @@
           <i slot="icon" class="iconfont" :class="item.iconList"></i>
         </van-grid-item>
       </van-grid>
-      <!-- 房屋配置列表 -->
+
       <!-- 房屋描述 -->
       <div class="bgmask">
         <div class="information">房屋描述</div>
@@ -118,7 +118,7 @@
           v-model="data.description"
         />
       </div>
-      <!-- 房屋描述 -->
+
       <div class="gobtn">
         <van-button plain type="primary" class="gobtn-btn" @click="noAdd"
           >取消</van-button

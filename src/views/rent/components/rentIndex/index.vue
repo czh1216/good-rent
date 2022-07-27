@@ -2,14 +2,13 @@
   <div>
     <!-- 头部 -->
     <NavBar :title="'房屋管理'"></NavBar>
-    <!-- 头部 -->
+
     <!-- 收藏列表部分 -->
     <div class="favorate-list" v-if="rentList[0]">
       <!-- 列表渲染 -->
       <ListCell :List="rentList" />
-      <!-- 列表渲染 -->
     </div>
-    <!-- 收藏列表部分 -->
+
     <div v-else class="none">
       <van-icon name="newspaper-o" size="150px" />
       <div class="issue">

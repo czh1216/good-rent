@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="navs">
     <van-dropdown-menu>
       <!-- 区域 -->
       <van-dropdown-item ref="item">
@@ -19,19 +19,21 @@
           </template>
         </van-picker>
       </van-dropdown-item>
-      <!-- 区域 -->
-      <!-- 方式和租金 -->
+
+      <!-- 方式 -->
       <van-dropdown-item
-        v-model="value2"
-        :options="option2"
-        @change="value2Change"
+        v-model="Way2"
+        :options="Way"
+        @change="Way2Change"
       >
         <span slot="title">方式</span>
       </van-dropdown-item>
+
+      <!-- 租金 -->
       <van-dropdown-item
-        v-model="value3"
-        :options="option3"
-        @change="value3Change"
+        v-model="Rent2"
+        :options="Rent"
+        @change="Rent2Change"
       >
         <span slot="title">租金</span>
       </van-dropdown-item>
@@ -48,6 +50,7 @@
         <span slot="title">筛选</span>
       </van-dropdown-item>
 
+      <!-- 筛选弹出层 -->
       <van-popup
         class="popup"
         v-model="show"
@@ -60,7 +63,7 @@
         <Btn title="户型" :data="roomType" />
         <Btn title="朝向" :data="oriented" />
         <Btn title="楼层" :data="floor" />
-        <Btn title="朝向" :data="characteristic" />
+        <Btn title="房屋亮点" :data="characteristic" />
       </van-popup>
       <transition name="fade">
         <div class="popup-btn" v-show="show">
@@ -75,7 +78,6 @@
           </van-button>
         </div>
       </transition>
-      <!-- 筛选 -->
     </van-dropdown-menu>
   </div>
 </template>
@@ -93,15 +95,15 @@ export default {
       columns: [], //存放地铁和区域数据内容
       newData: {},
       value: 0,
-      value2: 0,
-      value3: 0,
-      option2: [],
-      option3: [],
-      option: [],
-      roomType: [], //户型数据
+      Way: [], //方式
+      Way2: 0,
+      Rent: [], //租金
+      Rent2: 0,
+      option: [], //筛选
+      roomType: [], //户型
       oriented: [], //朝向
       floor: [], //楼层
-      characteristic: [] //房屋两点
+      characteristic: [] //房屋亮点
     }
   },
   async created () {
@@ -110,6 +112,7 @@ export default {
       // 开始加载
       this.$toast.loading({
         message: '加载中',
+        forbidClick: true, //是否禁止背景点击
         duration: 0
       })
       // 发起请求,获取条件
@@ -121,19 +124,19 @@ export default {
       this.condition = data.body
       // 方式的数据整理
       data.body.rentType.forEach((item, index) => {
-        this.option2[index] = {}
-        this.option2[index].text = item.label
-        this.option2[index].value = item.value
+        this.Way[index] = {}
+        this.Way[index].text = item.label
+        this.Way[index].value = item.value
       })
-      this.value2 = this.option2[0].value
+      this.Way2 = this.Way[0].value
 
       //租金的数据整理
       data.body.price.forEach((item, index) => {
-        this.option3[index] = {}
-        this.option3[index].text = item.label
-        this.option3[index].value = item.value
+        this.Rent[index] = {}
+        this.Rent[index].text = item.label
+        this.Rent[index].value = item.value
       })
-      this.value3 = this.option3[0].value
+      this.Rent2 = this.Rent[0].value
 
       //区域数据调整
       this.forData(data.body.area, this.newData)
@@ -235,7 +238,7 @@ export default {
       this.$refs.item.toggle()
     },
     //修改方式时候触发
-    async value2Change (val) {
+    async Way2Change (val) {
       // 开始加载
       this.$toast.loading({
         message: '加载中',
@@ -260,7 +263,7 @@ export default {
       }
     },
     //修改租金时触发
-    async value3Change (val) {
+    async Rent2Change (val) {
       // 开始加载
       this.$toast.loading({
         message: '加载中',
@@ -306,6 +309,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.navs {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+}
 .popup {
   padding-bottom: 45px;
 }
@@ -316,10 +324,10 @@ export default {
   z-index: 999999;
   width: 80%;
   height: 45px;
-
   transition: 0.13s;
   .vanbtn {
-    height: 45px;
+    text-align: center;
+    height: 55px;
   }
   .vanbtn-no {
     right: 0;
@@ -328,6 +336,7 @@ export default {
   .vanbtn-yes {
     left: 0;
     width: 35%;
+    color: #4cbd87;
   }
 }
 
@@ -335,5 +344,7 @@ export default {
 .fade-leave-active {
   transform: translateX(100%);
 }
-
+/deep/.van-picker__toolbar{
+  bottom: 0;
+}
 </style>

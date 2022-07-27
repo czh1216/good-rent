@@ -2,7 +2,7 @@
   <div class="detail">
     <!-- navbar区域 -->
     <navBar :title="data.community" />
-    <!-- navbar区域 -->
+
     <!-- 轮播图区域 -->
     <van-swipe
       class="my-swipe"
@@ -14,27 +14,36 @@
         <img :src="`http://liufusong.top:8080${item}`" />
       </van-swipe-item>
     </van-swipe>
-    <!-- 轮播图区域 -->
+
     <!-- 描述部分 -->
     <div class="describe">
+      <!-- 房名 -->
       <div class="item title">
         <div>{{ data.description }}</div>
         <span v-for="obj in data.tags" :key="obj">{{ obj }}</span>
       </div>
+
       <div class="item conter">
+        <!-- 租金 -->
         <div class="HouseDetail">
           <h2>{{ data.price }} <span>/月</span></h2>
           <p>租金</p>
         </div>
+
+        <!-- 房型 -->
         <div class="HouseDetail">
           <h2>{{ data.roomType }}</h2>
           <p>房型</p>
         </div>
+
+        <!-- 面积 -->
         <div class="HouseDetail">
           <h2>{{ data.size }}平米</h2>
           <p>面积</p>
         </div>
       </div>
+
+      <!-- 位置 -->
       <div class="item info">
         <div>装修:<span>精装</span></div>
         <div>
@@ -46,7 +55,7 @@
         <div>类型:<span>普通住宅</span></div>
       </div>
     </div>
-    <!-- 描述部分 -->
+
     <!-- 地图区域 -->
     <div class="map-top">小区:{{ data.community }}</div>
     <div class="map-bottom">
@@ -67,8 +76,8 @@
         </bm-label>
       </baidu-map>
     </div>
-    <!-- 地图区域 -->
-    <!-- 房屋配套 -->
+
+    <!-- 配置 -->
     <div class="about">
       <div class="one">房屋配置</div>
       <div class="flag" v-if="!newList[0]">暂无数据~</div>
@@ -84,7 +93,8 @@
         </van-grid-item>
       </van-grid>
     </div>
-    <!-- 房屋配套 -->
+
+    <!-- 房源概述 -->
     <div class="bg"></div>
     <div class="about">
       <div class="one">房源概述</div>
@@ -109,6 +119,7 @@
       </div>
     </div>
     <div class="bg"></div>
+
     <!-- 猜你喜欢 -->
     <div class="like about">
       <div class="one">猜你喜欢</div>
@@ -116,8 +127,8 @@
         <ListCell :List="list" />
       </div>
     </div>
-    <!-- 猜你喜欢 -->
-    <!-- 底部资讯部分-->
+
+    <!-- 资讯收藏-->
     <footer>
       <div class="one" @click="isLike">
         <i
@@ -132,7 +143,6 @@
       <div>在线咨询</div>
       <div class="phone">电话预约</div>
     </footer>
-    <!-- 底部咨询部份 -->
   </div>
 </template>
 
@@ -286,7 +296,7 @@ export default {
     },
     //修改客户收藏状态()
     async isLike () {
-      console.log(1)
+      // console.log(1)
       if (this.isFavorite) {
         this.$toast.loading({
           message: '加载中',
@@ -367,7 +377,7 @@ export default {
     }
     .people {
       flex: 1;
-      margin-left: 5px;
+      margin-left: 15px;
       p {
         color: #333;
         font-size: 14px;

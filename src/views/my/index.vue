@@ -18,6 +18,7 @@
       </div>
     </div>
     <!-- 头部部分  未登录-->
+
     <!-- 头部部分  已登录-->
     <div class="myheader" id="myheader" v-else>
       <!-- 背景图 -->
@@ -37,7 +38,8 @@
       </div>
     </div>
     <!-- 头部部分  已登录-->
-    <!-- list列表 -->
+
+    <!-- 列表 -->
     <van-grid
       :column-num="3"
       class="my-list"
@@ -62,12 +64,11 @@
       <van-grid-item icon="manager-o" text="个人资料" class="my-list-item" />
       <van-grid-item icon="service-o" text="联系我们" class="my-list-item" />
     </van-grid>
-    <!-- list列表 -->
-    <!-- 下方图片 -->
+
+    <!-- 图片 -->
     <div class="data-img">
       <img src="@/assets/img/join.png" />
     </div>
-    <!-- 下方图片 -->
   </div>
 </template>
 
